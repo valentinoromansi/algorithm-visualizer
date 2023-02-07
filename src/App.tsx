@@ -1,17 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import Child from './Child'
+import { useBearStore, AppState } from './store'
+import Form from './Form'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
+  let [name, setName] = useState("Marik")
+  const increaseBears = useBearStore((state: AppState) => state.increaseBears)
+  
   return (
     <div className="App">
-      <p className="read-the-docs">
-        XXXXXXXXXXXXXX
-      </p>
+      <Form></Form>
+      <Child name={name}/>
+      <button onClick={increaseBears}>Add</button>
     </div>
   )
 }
-
-export default App
