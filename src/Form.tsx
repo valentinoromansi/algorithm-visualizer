@@ -7,13 +7,16 @@ interface Data {
   first_name: string
 }
 
-const fetchAbortController = new AbortController()
 
 export default function Form() {
   const urlEl = useRef<HTMLInputElement>(null)
   const [users, usersData] = useState<Data[]>([])
   const [fetching, setFetching] = useState<boolean>(false)
 
+  useEffect(() => {
+    urlEl!.current!.style.background = 'red'
+  }, []);
+  
   
   const fetchData = async() => {
     setFetching(true)
