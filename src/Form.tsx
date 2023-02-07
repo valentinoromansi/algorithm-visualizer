@@ -3,22 +3,40 @@ import reactLogo from './assets/react.svg'
 import './App.css'
 import { useBearStore, AppState } from './store'
 
+interface Data {
+  first_name: string
+}
+
+const fetchAbortController = new AbortController()
+
 export default function Form() {
   const urlEl = useRef<HTMLInputElement>(null)
+  const [users, usersData] = useState<Data[]>([])
+  const [fetching, setFetching] = useState<boolean>(false)
 
-  const fetchData = () => {
-    fetch('https://random-data-api.com/api/v2/users').then(res => {
-      res.json().then(data => {
-        console.log(data)
-      })  
-    })
+  
+  const fetchData = async() => {
+    setFetching(true)
+    const response = await fetch('https://random-data-api.com/api/v2/users')
+    const data: Data = await response.json()
+    usersData([...users, data])
   }
+
+  useEffect(() => {
+    setFetching(false)
+  }, [users])
 
 
   return (
-    <div>
+    <div id='form-root'>
       <input ref={urlEl}></input>
-      <button onClick={fetchData}>FETCH</button>
+      <button disabled={fetching} onClick={() => fetchData()}>FETCH</button>
+      {
+        users.map((user, i) => {
+          console.log(users.map(u => u.first_name))
+            return <p key={i}>{`${i} ${user.first_name}`}</p>
+        })
+      }
     </div>
   )
 }
