@@ -1,0 +1,27 @@
+.card {
+  width: 200px;
+  height: 400px;
+  background: green;
+  text-align: center;
+  border-radius: 6px;
+}
+
+
+.hidden {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.shown {
+  transform: translateX(0%);
+  opacity: 1;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.App > :nth-child(2) {
+  transition-delay: 200ms;
+}
+
+.App > :nth-child(3) {
+  transition-delay: 400ms;
+}
