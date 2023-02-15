@@ -2,3 +2,22 @@
   display: flex;
   gap: 16px;
 }
+
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  background: red;
+  width: min(100%, 1200px);
+  margin: auto;
+}
+
+.grid-cell {
+  background: green;
+  aspect-ratio: 1;
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+
+.grid-cell:hover {
+  background: limegreen;
+}

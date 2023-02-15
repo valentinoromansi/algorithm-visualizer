@@ -4,13 +4,14 @@ import './App.css'
 import { useBearStore, AppState } from './store'
 import './Card.css'
 
-export interface CardType {
-  name: string
+export interface CellType {
+  index: number,
+  state: "start" | "finish" | "unchecked" | "checked" | "being_checked" | "part_of_path"
 }
 
 
-export function Card(props: CardType) {
-  const { name } = props
+export function CellComponent(props: CellType) {
+  const { index, state } = props
   const refDiv = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
