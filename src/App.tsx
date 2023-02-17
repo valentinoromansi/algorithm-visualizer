@@ -17,13 +17,15 @@ export class Cell {
 
 const cells: Cell[] = []
 
+let selectedCellState: CellState = 'start'
+let leftMouseDown = false
+
 export default function App() {
   
   const cellRows = 60    // num of rows
   const cellCols = 20   // num of columns
-  const cellSize = 30 // cell size in px -> calculated based on container size 
+  const cellSize = 30 // cell size in px -> calculated based on container size
   
-  const [ cellz, setCellz ] = useState<Cell[]>([]) 
   
   useEffect(() => {
     // set grid cell css
@@ -31,32 +33,39 @@ export default function App() {
     cellElements.forEach((cellEl, i) => {
       cellEl.style.width = `${100 / cellRows}%`
       cells.push(new Cell(cellEl, i))
-      setCellz(cells)
+      cellEl.onmousemove = () => {
+        if(leftMouseDown)
+          setCellState(cells[i], selectedCellState)
+      }
     });
+    document.body.onmousedown = () => { leftMouseDown = true }
+    document.body.onmouseup = () => { leftMouseDown = false }
   }, [])
   
-  function changeState(cell: Cell, state: CellState) {
+  function setCellState(cell: Cell, state: CellState) {
+    if(cell.state === state)
+      return    
     cell.state = state
-    cellz[cell.index].state = 'finish'
-    setCellz([...cellz])
+    cell.el?.classList.remove("start", "finish", "unchecked", "checked", "being_checked", "part_of_path")
+    cell.el?.classList.add(state)
   }
 
   
   return (
     <div className="App">
+      <div>
+        <button onClick={() => { selectedCellState = 'start' }}>start</button>
+        <button onClick={() => { selectedCellState = 'finish' }}>finish</button>
+      </div>
       <div className='grid-container'>
         {
           [...Array(cellRows * cellCols)].map((el, i) => {
             return(
-              <div className='grid-cell' id={i.toString()}></div>
+              <div className='grid-cell' key={i}></div>
             )
           })
         }
       </div>
-      <button onClick={() => {changeState(cells[2], "finish")}}>asd</button>
-      { 
-        cellz.map((c) => { return(c.state + ' ')}) 
-      }
     </div>
   )
 }
