@@ -22,24 +22,30 @@ let leftMouseDown = false
 
 export default function App() {
   
-  const cellRows = 60    // num of rows
-  const cellCols = 20   // num of columns
-  const cellSize = 30 // cell size in px -> calculated based on container size
-  
+  const rows = 20    // num of rows
+  const columns = 40   // num of columns 
   
   useEffect(() => {
+    document.body.onmousedown = () => { leftMouseDown = true }
+    document.body.onmouseup = () => { leftMouseDown = false }
     // set grid cell css
     const cellElements = document!.querySelectorAll<HTMLElement>('.grid-cell')!
     cellElements.forEach((cellEl, i) => {
-      cellEl.style.width = `${100 / cellRows}%`
+      cellEl.style.width = `${100 / columns}%`
       cells.push(new Cell(cellEl, i))
       cellEl.onmousemove = () => {
         if(leftMouseDown)
           setCellState(cells[i], selectedCellState)
       }
     });
-    document.body.onmousedown = () => { leftMouseDown = true }
-    document.body.onmouseup = () => { leftMouseDown = false }
+    // Set start and finish cells - position them middle left for start and middle right for row
+    const indexPositions = { 
+      start: Math.round(rows / 2 * columns - (columns * 0.8)),
+      finish: Math.round(rows / 2 * columns - (columns * 0.2)),
+    }
+    setCellState(cells[indexPositions.start], 'start')
+    setCellState(cells[indexPositions.finish], 'finish')
+
   }, [])
   
   function setCellState(cell: Cell, state: CellState) {
@@ -52,16 +58,22 @@ export default function App() {
 
   
   return (
-    <div className="App">
+    <div className="App">      
       <div>
         <button onClick={() => { selectedCellState = 'start' }}>start</button>
         <button onClick={() => { selectedCellState = 'finish' }}>finish</button>
+        <button onClick={() => { selectedCellState = 'unchecked' }}>unchecked</button>
+        <button onClick={() => { selectedCellState = 'checked' }}>checked</button>
+        <button onClick={() => { selectedCellState = 'being_checked' }}>being_checked</button>
+        <button onClick={() => { selectedCellState = 'part_of_path' }}>part_of_path</button>
       </div>
       <div className='grid-container'>
         {
-          [...Array(cellRows * cellCols)].map((el, i) => {
+          [...Array(rows * columns)].map((el, i) => {
             return(
-              <div className='grid-cell' key={i}></div>
+              <div className='grid-cell' key={i}>
+                <i className="gg-flag-alt"></i>
+              </div>
             )
           })
         }
