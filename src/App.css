@@ -10,25 +10,25 @@
 .grid-container {
   display: flex;
   flex-wrap: wrap;
-  background: red;
   width: min(100%, 1200px);
   margin: auto;
 }
 
 .grid-cell {
-  background: green;
   aspect-ratio: 1;
   box-sizing: border-box;
-  border: 1px solid black;
+  border: 1px solid rgba(1, 1, 1, 0.1);
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .start {
-  background: orange;
   transition: background-color 0.2s;
+  background-image: url(./assets/bug.svg);
 }
 
 .finish {
-  background: blue;
+  background-image: url(./assets/leaf.svg);
 }
 
 .finish > i {

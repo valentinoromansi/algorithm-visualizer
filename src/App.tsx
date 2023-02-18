@@ -71,9 +71,7 @@ export default function App() {
         {
           [...Array(rows * columns)].map((el, i) => {
             return(
-              <div className='grid-cell' key={i}>
-                <i className="gg-flag-alt"></i>
-              </div>
+              <div className='grid-cell' key={i}/>
             )
           })
         }
